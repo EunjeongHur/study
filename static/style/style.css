@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Patrick+Hand&display=swap');
+
+
+body{
+    background-color: darkslategrey;
+    height: 100vh;
+    /* background-image: url('/static/images/background.jpg') */
+}
+
+#container{
+    display: grid;
+    grid-template-columns: 25% 70%;
+    grid-template-rows: 1fr;
+    max-width: 60%;
+    min-height: 60%;
+    margin: auto;
+    padding-top:7%;
+    gap: 0px 50px;
+    
+}
+
+.side-form{
+    background-color: rgb(255,255,255);
+    padding: 20px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.side-form h1{
+    text-align: center;
+    font-family: 'Patrick Hand';
+    letter-spacing: 2px;
+}
+
+.side-form input{
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+    height: 30px;
+    border: none;
+    background-color: #eeeeee;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.side-form input:focus {
+    background-color: #00ad451a;
+    outline: none;
+    
+}
+
+.side-form button{
+    width: 103%;
+    height: 50px;
+    padding: 10px;
+    margin: 40px 0px 5px 0px;
+    text-align: center;
+    background-color: #00ad45;
+    color: #fff;
+    border: none;
+    justify-items: center;
+    font-size: 1.2rem;
+}
+
+.side-form a{
+    color: black;
+    transition: 0.5s;
+}
+
+.side-form a:link, .side-form a:visited{
+    color: black;
+    text-decoration: none;
+}
+
+.side-form a:hover{
+    text-decoration:underline 2px;
+    text-decoration-color: #00ad45;
+    
+}
+
+.side-login{
+    display: grid;
+    text-align: center;
+    background-color: rgb(255,255,255);
+    transition: 1.3s;
+}
+
+.side-login a{
+    text-decoration: none;
+    color: black;
+    font-family: 'Patrick Hand';
+    font-size: 1.6rem;
+    padding-top: 24%;
+    position: relative;
+}
+
+.side-login a::before{
+    content: '';
+    position:absolute;
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height:8px;
+    background-color: #0074D9;
+    transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .side-login a:hover::before{
+        left: 0;
+        right: auto;
+        width: 100%;
+    }
+}
