@@ -4,7 +4,7 @@
 <div class="side-login">
     <a class="side-item" href="{{url_for('login')}}" style="color: {{ color1 }}; background-color: {{ color11 }}">Login</a>
     <a class="side-item" href="{{url_for('register')}}" style="color: {{ color2 }}; background-color: {{ color21 }}">Register</a>
-    <a class="side-item" href="#" style="color: {{ color3 }}; background-color: {{ color31 }}">Forgot Password?</a>
+    <a class="side-item" href="{{url_for('help')}}" style="color: {{ color3 }}; background-color: {{ color31 }}">Forgot Password?</a>
 </div>
 <form class="side-form" action="{{ request.path }}" method="POST">
     {{ form.csrf_token }}
@@ -23,47 +23,107 @@
     <div>
         <h1>{{ text }}</h1>
     </div>
-
-    <div>
-        {{ form.username(class_="form-control", placeholder="Username")}}
-    </div>
-    {% for error in form.username.errors %}
-    <div class="alert">
-        <span class="alertmsg">{{ error }}</span>
-        <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
-    </div>
-    {% endfor %}
-    <div>
-        {{ form.password(class_="form-control", placeholder="Password")}}
-    </div>
-    {% for error in form.password.errors %}
-    <div class="alert">
-        <span class="alertmsg">{{ error }}</span>
-        <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
-    </div>
-    {% endfor %}
-    {% if request.path == '/register/' %}
-    <div>
-        {{ form.cpwd(class_="form-control", placeholder="Confirm Password")}}
-    </div>
-    {% for error in form.cpwd.errors %} 
-    <div class="alert">
-        <span class="alertmsg">{{ error }}</span>
-        <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
-    </div> 
-    {% endfor %}
-    {% endif %} 
-    <div>
-        <button type="submit">{{ btn_action }}</button>
-        <p>
-            {% if request.path != '/register/' %}
-            New here?
-            <a href="{{url_for('register')}}">Create account</a>
-            {% else %}
-            Already have an account?
-            <a href="{{url_for('login')}}">Login</a>
-            {% endif %}
-        </p>
-    </div>
+    {% if request.path == '/help/' %}
+        <div>
+            {{ form.username(class_="form-control", placeholder="Username")}}
+        </div>
+        {% for error in form.username.errors %}
+        <div class="alert">
+            <span class="alertmsg">{{ error }}</span>
+            <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+        {% endfor %}
+        <div>
+            {{ form.email(class_="form-control",placeholder="Email")}}
+        </div>
+        {% for error in form.email.errors %}
+        <div class="alert">
+            <span class="alertmsg">{{ error }}</span>
+            <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+        {% endfor %}
+        <div>
+            <button type="submit">{{ btn_action }}</button>
+            <p>
+                Already have an account?
+                <a href="{{url_for('login')}}">Login</a>
+            </p>
+        </div>
+    {% elif request.path.startswith('/reset/') %}
+        <div>
+            {{ form.password(class_="form-control", placeholder="Password")}}
+        </div>
+        {% for error in form.password.errors %}
+        <div class="alert">
+            <span class="alertmsg">{{ error }}</span>
+            <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+        {% endfor %}
+        <div>
+            {{ form.cpwd(class_="form-control", placeholder="Confirm Password")}}
+        </div>
+        {% for error in form.cpwd.errors %} 
+        <div class="alert">
+            <span class="alertmsg">{{ error }}</span>
+            <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div> 
+        {% endfor %}
+        <div>
+            <button type="submit">{{ btn_action }}</button>
+        </div>
+    {% else %}
+        <div>
+            {{ form.username(class_="form-control", placeholder="Username")}}
+        </div>
+        {% for error in form.username.errors %}
+        <div class="alert">
+            <span class="alertmsg">{{ error }}</span>
+            <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+        {% endfor %}
+        {% if request.path == '/register/' %}
+        <div>
+            {{ form.email(class_="form-control",placeholder="Email")}}
+        </div>
+        {% for error in form.email.errors %}
+        <div class="alert">
+            <span class="alertmsg">{{ error }}</span>
+            <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+        {% endfor%}
+        {% endif%}
+        <div>
+            {{ form.password(class_="form-control", placeholder="Password")}}
+        </div>
+        {% for error in form.password.errors %}
+        <div class="alert">
+            <span class="alertmsg">{{ error }}</span>
+            <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+        {% endfor %}
+        {% if request.path == '/register/' %}
+        <div>
+            {{ form.cpwd(class_="form-control", placeholder="Confirm Password")}}
+        </div>
+        {% for error in form.cpwd.errors %} 
+        <div class="alert">
+            <span class="alertmsg">{{ error }}</span>
+            <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div> 
+        {% endfor %}
+        {% endif %} 
+        <div>
+            <button type="submit">{{ btn_action }}</button>
+            <p>
+                {% if request.path != '/register/' %}
+                New here?
+                <a href="{{url_for('register')}}">Create account</a>
+                {% else %}
+                Already have an account?
+                <a href="{{url_for('login')}}">Login</a>
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
 </form>
 {% endblock %}

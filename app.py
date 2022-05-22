@@ -8,6 +8,7 @@ from flask import (
     request
 )
 
+from sqlalchemy import and_
 from datetime import timedelta
 from sqlalchemy.exc import (
     IntegrityError,
@@ -28,7 +29,7 @@ from flask_login import (
 
 from create_app import create_app, db, login_manager, bcrypt
 from models import User
-from forms import login_form, register_form
+from forms import login_form, register_form, help_form, password_form
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -74,32 +75,80 @@ def register():
             
             password = form.password.data
             username = form.username.data
+            email = form.email.data
 
             newuser = User(
                 username = username,
+                email = email,
                 password=generate_password_hash(password).decode('utf8'),
             )
             db.session.add(newuser)
             db.session.commit()
-            flash(f"Account Succesfully created", "success")
+            flash(f"Account Succesfully created")
             return redirect(url_for("login"))
 
         except InvalidRequestError:
             db.session.rollback()
-            flash(f"Something went wrong", "danger")
+            flash(f"Something went wrong")
         except IntegrityError:
             db.session.rollback()
-            flash(f"User already exists", "warning")
+            flash(f"User already exists")
         except DataError:
             db.session.rollback()
-            flash(f"Invalid Entry", "warning")
+            flash(f"Invalid Entry")
         except InterfaceError:
             db.session.rollback()
-            flash(f"Error connecting to the database", "danger")
+            flash(f"Error connecting to the database")
         except BuildError:
             db.session.rollback()
-            flash(f"An error occured!", "danger")
+            flash(f"An error occured!")
     return render_template("auth.html", form=form, text="Register Here", btn_action="Register", color1="black", color2="#fff", color3="black", color21="#00ad45")
+
+@app.route("/help/", methods=("GET", "POST"), strict_slashes=False)
+def help():
+    form = help_form()
+    if form.validate_on_submit():
+        try:
+            username = form.username.data
+            email = form.email.data
+            
+            user = User.query.filter(
+                and_(
+                    User.username.like(username),
+                    User.email.like(email)
+                )
+            ).first()
+            
+            if user is None:
+                raise InvalidRequestError
+            else:
+                return redirect(url_for("reset", username=username))
+
+        except InvalidRequestError:
+            flash("Cannot find an account")
+
+        except Exception as e:
+            flash(e)
+    
+    return render_template("auth.html", form=form, text="Reset Password", btn_action="Reset", color1="black", color2="black", color3 = "#fff", color31="#00ad45")
+
+@app.route("/reset/<username>", methods=("GET", "POST"), strict_slashes=False)
+def reset(username):
+    form = password_form()
+    if form.validate_on_submit():
+        try:
+            user = User.query.filter_by(username=username).first_or_404()
+            user.password = generate_password_hash(form.password.data).decode('utf8')
+
+            db.session.add(user)
+            db.session.commit()
+            flash("Password is changed")
+            return redirect(url_for("login"))
+
+        except Exception as e:
+            flash(e)
+            
+    return render_template("auth.html", form=form, text="Reset Password", btn_action="Reset", color1="black", color2="black", color3 = "#fff", color31="#00ad45")
 
 @app.route("/logout")
 @login_required

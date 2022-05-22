@@ -1,5 +1,9 @@
 {% extends "base.html" %} 
-{% block content%} 
+{% block content%}
+
+{% if current_user.is_authenticated %}
+    <h3>Hi</h3>
+{% else %}
     <div class="side-login">
         <a href="{{url_for('login')}}">Login</a>
         <a href="{{url_for('register')}}">Register</a>
@@ -9,4 +13,5 @@
     <div id="main">
         <h3>Login Here</h3>
     </div>
+{% endif %}
 {% endblock %}
