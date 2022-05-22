@@ -69,7 +69,7 @@ def register():
 
     form = register_form()
     
-    if form.validate():
+    if form.validate_on_submit():
         try:
             
             password = form.password.data

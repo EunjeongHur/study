@@ -78,7 +78,6 @@ body{
 .side-form a:hover{
     text-decoration:underline 2px;
     text-decoration-color: #00ad45;
-    
 }
 
 .side-login{
@@ -104,8 +103,40 @@ body{
     right: 0;
     width: 0;
     height:8px;
-    background-color: #0074D9;
+    background-color: #282a35;
     transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.alert {
+    padding: 20px;
+    color: white;
+    background-color: #ff9800;
+    opacity: 1;
+    transition: opacity 0.6s;
+    display: grid;
+    grid-template-columns: 3fr 0.5fr 1fr;
+    grid-template-rows: 5px;
+    grid-template-areas:
+        "msg none btn";
+}
+
+.alertmsg{
+    grid-area: msg;
+    margin-top: -8px;
+}
+
+.alert button{
+    grid-area: btn;
+    background-color: #ff9800;
+    text-align: right;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-top: -16px;
+    height:250%;
+}
+
+.alert button:hover{
+    color: black;
 }
 
 @media (hover: hover) and (pointer: fine) {

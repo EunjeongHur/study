@@ -12,9 +12,9 @@
 
     {% if messages %}
     {% for category, message in messages %} 
-    <div role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bas-dismiss="alert" aria-label="Close"></button>
+    <div class="alert">
+        <span class="alertmsg">{{ message }}</span>
+        <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
     </div>
     {% endfor %}
     {% endif %} 
@@ -27,45 +27,43 @@
     <div>
         {{ form.username(class_="form-control", placeholder="Username")}}
     </div>
-        {% for error in form.username.errors %}
-        <div role="alert">
-            {{ error }}
-            <button type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
+    {% for error in form.username.errors %}
+    <div class="alert">
+        <span class="alertmsg">{{ error }}</span>
+        <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
+    </div>
+    {% endfor %}
     <div>
         {{ form.password(class_="form-control", placeholder="Password")}}
     </div>
     {% for error in form.password.errors %}
-    <div role="alert">
-        {{ error }}
-        <button type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="alert">
+        <span class="alertmsg">{{ error }}</span>
+        <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
     </div>
     {% endfor %}
     {% if request.path == '/register/' %}
     <div>
         {{ form.cpwd(class_="form-control", placeholder="Confirm Password")}}
     </div>
+    {% for error in form.cpwd.errors %} 
+    <div class="alert">
+        <span class="alertmsg">{{ error }}</span>
+        <button type="button" onclick="this.parentElement.style.display='none';">&times;</button>
+    </div> 
+    {% endfor %}
+    {% endif %} 
     <div>
-        {% for error in form.cpwd.errors %} 
-        <div role="alert">
-            {{ error }}
-            <button type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div> 
-        {% endfor %}
-        {% endif %} 
-        <div>
-            <button type="submit">{{ btn_action }}</button>
-            <p>
-                {% if request.path != '/register/' %}
-                New here?
-                <a href="{{url_for('register')}}">Create account</a>
-                {% else %}
-                Already have an account?
-                <a href="{{url_for('login')}}">Login</a>
-                {% endif %}
-            </p>
-        </div>
+        <button type="submit">{{ btn_action }}</button>
+        <p>
+            {% if request.path != '/register/' %}
+            New here?
+            <a href="{{url_for('register')}}">Create account</a>
+            {% else %}
+            Already have an account?
+            <a href="{{url_for('login')}}">Login</a>
+            {% endif %}
+        </p>
     </div>
 </form>
 {% endblock %}
